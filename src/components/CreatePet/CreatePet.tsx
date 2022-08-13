@@ -1,27 +1,30 @@
-// @ts-nocheck
 import { useState } from 'react';
-import useCreatePet from '../hooks/useCreatePet';
+import graphQLClient from '../../config/graphQLClient';
+import { Pet, useCreatePetMutation } from '../../generated/graphql';
 
-const AddPet: React.FC = () => {
+const CreatePet: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [ownerId, setOwnerId] = useState<number>(1);
 
-  const { mutate, data, status } = useCreatePet();
+  const { mutate, data, status } = useCreatePetMutation(graphQLClient);
 
   const handleSubmit = () => {
     mutate(
-      { name, type, ownerId },
+      { createPetInput: { name, type, ownerId } },
       {
         onSuccess: data => {
           console.log(data);
           if (data.createPet.__typename === 'CreatePetError') {
-            // handle error
+            console.log(data.createPet.nameErrors);
+            console.log(data.createPet.typeErrors);
+            console.log(data.createPet.ownerIdErrors);
           }
         },
       }
     );
   };
+
   return (
     <div>
       <h1>Add pets</h1>
@@ -35,13 +38,13 @@ const AddPet: React.FC = () => {
       {status === 'error' && <p>something went wrong</p>}
       {status === 'success' && (
         <div>
-          <h1>{data?.createPet.name}</h1>
-          <h1>{data?.createPet.type}</h1>
-          <h1>{data?.createPet.ownerId}</h1>
+          <h1>{(data.createPet as Pet).name}</h1>
+          <h1>{(data.createPet as Pet).type}</h1>
+          <h1>{(data.createPet as Pet).ownerId}</h1>
         </div>
       )}
     </div>
   );
 };
 
-export default AddPet;
+export default CreatePet;

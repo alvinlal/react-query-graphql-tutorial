@@ -23,7 +23,7 @@ const CREATE_PET = gql`
 
 interface CreatePetResult {
   createPet: {
-    __typename: string;
+    __typename: 'CreatePetError' | 'Pet';
   } & CreatePetError &
     Pet;
 }

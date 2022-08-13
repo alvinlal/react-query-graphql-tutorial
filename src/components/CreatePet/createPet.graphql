@@ -1,0 +1,16 @@
+mutation createPet($createPetInput: CreatePetInput!) {
+  createPet(createPetInput: $createPetInput) {
+    __typename
+    ... on CreatePetError {
+      nameErrors
+      typeErrors
+      ownerIdErrors
+    }
+
+    ... on Pet {
+      id
+      name
+      type
+    }
+  }
+}

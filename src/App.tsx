@@ -1,8 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import AddPet from './components/AddPet';
-import Pets from './components/Pets';
+import CreatePet from './components/CreatePet/CreatePet';
+import Pets from './components/Pets/Pets';
 
 const queryClient = new QueryClient();
 
@@ -12,7 +12,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Routes>
           <Route path='pets' element={<Pets />} />
-          <Route path='addpet' element={<AddPet />} />
+          <Route path='addpet' element={<CreatePet />} />
         </Routes>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
